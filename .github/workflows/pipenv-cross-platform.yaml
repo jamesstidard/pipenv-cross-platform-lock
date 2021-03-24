@@ -100,7 +100,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Delete Old Lock
-        run: pipenv lock --keep-outdated
+        run: rm Pipfile.lock
       - name: Download Final Lock
         uses: actions/download-artifact@v2
         with:
