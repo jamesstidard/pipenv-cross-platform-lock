@@ -72,12 +72,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: look around
-        run: ls
-      - name: Delete Old Lock
-        run: rm Pipfile.lock
-      - name: look around 2
-        run: ls
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -89,11 +83,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: win-pipfile-lock
-          path: .
-      - name: look around 3
-        run: ls
-      - name: look around 3.5
-        run: cat Pipfile.lock
       - name: Lock System Specific Dependencies
         run: pipenv lock --keep-outdated
       - name: Archive production artifacts
@@ -113,7 +102,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: linux-pipfile-lock
-          path: .
       - name: Commit
         uses: EndBug/add-and-commit@v7 # You can change this to use a specific version
         with:
