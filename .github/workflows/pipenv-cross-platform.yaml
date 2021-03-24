@@ -89,7 +89,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: win-pipfile-lock
-          path: Pipfile.lock
+          path: .
       - name: look around 3
         run: ls
       - name: look around 3.5
@@ -109,13 +109,11 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Delete Old Lock
-        run: rm Pipfile.lock
       - name: Download Final Lock
         uses: actions/download-artifact@v2
         with:
           name: linux-pipfile-lock
-          path: Pipfile.lock
+          path: .
       - name: Commit
         uses: EndBug/add-and-commit@v7 # You can change this to use a specific version
         with:
