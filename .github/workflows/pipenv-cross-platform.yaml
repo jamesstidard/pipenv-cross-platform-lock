@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - Pipfile.lock
+      - .github/workflows/pipenv-cross-platform.yaml
 
 jobs:
 # ============================================================================ #
