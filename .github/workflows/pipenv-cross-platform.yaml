@@ -72,8 +72,12 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: look around
+        run: ls
       - name: Delete Old Lock
         run: rm Pipfile.lock
+      - name: look around 2
+        run: ls
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -86,6 +90,8 @@ jobs:
         with:
           name: win-pipfile-lock
           path: Pipfile.lock
+      - name: look around 3
+        run: ls
       - name: Lock System Specific Dependencies
         run: pipenv lock --keep-outdated
       - name: Archive production artifacts
