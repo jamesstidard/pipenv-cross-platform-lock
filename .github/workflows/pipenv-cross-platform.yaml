@@ -74,8 +74,8 @@ jobs:
         uses: actions/checkout@v2
       - name: look around
         run: ls
-      # - name: Delete Old Lock
-      #   run: rm Pipfile.lock
+      - name: Delete Old Lock
+        run: rm Pipfile.lock
       - name: look around 2
         run: ls
       - name: Setup Python
@@ -85,13 +85,15 @@ jobs:
       - name: Install pipenv
         run: |
           python -m pip install --upgrade pipenv wheel
-      # - name: Download Windows Lock
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: win-pipfile-lock
-      #     path: Pipfile.lock
+      - name: Download Windows Lock
+        uses: actions/download-artifact@v2
+        with:
+          name: win-pipfile-lock
+          path: Pipfile.lock
       - name: look around 3
         run: ls
+      - name: look around 3.5
+        run: cat Pipfile.lock
       - name: Lock System Specific Dependencies
         run: pipenv lock --keep-outdated
       - name: Archive production artifacts
