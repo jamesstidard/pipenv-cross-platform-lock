@@ -92,12 +92,14 @@ jobs:
           path: Pipfile.lock
 
   commit_lock:
-    name: Display results
+    name: Commit Cross Platform Lock
     needs: [windows_lock, ubuntu_lock]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: Delete Old Lock
+        run: pipenv lock --keep-outdated
       - name: Download Final Lock
         uses: actions/download-artifact@v2
         with:
