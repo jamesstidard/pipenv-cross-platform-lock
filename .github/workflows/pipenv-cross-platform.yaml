@@ -43,7 +43,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: win-pipfile-lock
+          name: pipfile-lock
           path: Pipfile.lock
 
 
@@ -82,18 +82,62 @@ jobs:
       - name: Download Windows Lock
         uses: actions/download-artifact@v2
         with:
-          name: win-pipfile-lock
+          name: pipfile-lock
       - name: Lock System Specific Dependencies
         run: pipenv lock --keep-outdated
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: linux-pipfile-lock
+          name: pipfile-lock
+          path: Pipfile.lock
+
+
+# ============================================================================ #
+#                                                                              #
+#                               MACOS LOCK                                     #
+#                                                                              #
+# ============================================================================ #
+  macos_lock:
+    name: macOS Lock
+
+    runs-on: macos-latest
+
+    needs: [ubuntu_lock]
+
+    env:
+      PIPENV_VENV_IN_PROJECT: true
+      PIPENV_IGNORE_VIRTUALENVS: true
+      PYTHONPATH: ${{ github.workspace }}
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pipenv wheel
+      - name: Download Windows Lock
+        uses: actions/download-artifact@v2
+        with:
+          name: pipfile-lock
+      - name: Lock System Specific Dependencies
+        run: pipenv lock --keep-outdated
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: pipfile-lock
           path: Pipfile.lock
 
   commit_lock:
     name: Commit Cross Platform Lock
-    needs: [windows_lock, ubuntu_lock]
+    needs: [windows_lock, ubuntu_lock, macos_lock]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -101,7 +145,7 @@ jobs:
       - name: Download Final Lock
         uses: actions/download-artifact@v2
         with:
-          name: linux-pipfile-lock
+          name: pipfile-lock
       - name: Commit
         uses: EndBug/add-and-commit@v7 # You can change this to use a specific version
         with:
